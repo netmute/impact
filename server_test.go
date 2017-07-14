@@ -132,3 +132,22 @@ func TestSaveHandler(t *testing.T) {
 
 	os.Remove("test/newfile.js")
 }
+
+func TestSaveHandlerCanOverwrite(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(saveHandler))
+	defer server.Close()
+
+	var tests = []testItem{
+		{"?path=test/dummy.js&data=Testing", 200, `{"message":"","error":0}`},
+		{"?path=test/dummy.js&data=Foo", 200, `{"message":"","error":0}`},
+	}
+	runTests(tests, server, t)
+
+	contents, _ := ioutil.ReadFile("test/dummy.js")
+
+	if string(contents) != "Foo" {
+		t.Errorf("Expected test/dummy.js content to be 'Foo', was '%s'", contents)
+	}
+
+	os.Remove("test/dummy.js")
+}
