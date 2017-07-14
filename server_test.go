@@ -70,6 +70,11 @@ func TestGlobHandler(t *testing.T) {
 			200,
 			`[]`,
 		},
+		{
+			"?glob[]=test/scripts/*.js&glob[]=test/images/*.png",
+			200,
+			`["test/scripts/bar.js","test/scripts/baz.js","test/scripts/foo.js","test/images/bar.png","test/images/baz.png","test/images/foo.png"]`,
+		},
 	}
 
 	runTests(tests, server, t)

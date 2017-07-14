@@ -67,8 +67,18 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func globHandler(w http.ResponseWriter, r *http.Request) {
-	glob, err := filepath.Glob(r.FormValue("glob[]"))
-	printError(err)
+	r.ParseForm()
+
+	var dirs = r.Form["glob[]"]
+	var glob []string
+
+	for _, dir := range dirs {
+		files, _ := filepath.Glob(dir)
+		for _, file := range files {
+			glob = append(glob, file)
+		}
+	}
+
 	if glob == nil {
 		glob = make([]string, 0)
 	}
