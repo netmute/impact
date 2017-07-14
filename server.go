@@ -166,6 +166,6 @@ func main() {
 	http.HandleFunc("/lib/weltmeister/api/browse.php", browseHandler)
 	http.HandleFunc("/lib/weltmeister/api/save.php", saveHandler)
 	http.HandleFunc("*", fileHandler)
-	fmt.Println("Started impact server at localhost:" + port + "\nVisit /wm for the weltmeister editor")
+	fmt.Println("Started impact server at http://localhost:" + port)
 	http.ListenAndServe(":"+port, nil)
 }
