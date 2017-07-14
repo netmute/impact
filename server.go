@@ -135,7 +135,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 		dir := filepath.Join(".", pth)
 
 		if path.Ext(dir) == ".js" {
-			f, err := os.OpenFile(dir, os.O_WRONLY, 0666)
+			f, err := os.OpenFile(dir, os.O_WRONLY|os.O_CREATE, 0666)
 
 			if err != nil {
 				writeJson(w, SaveResponse{Error: 2, Msg: "Couldn't write to file: " + err.Error()})

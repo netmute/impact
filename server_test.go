@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 )
 
@@ -121,11 +122,13 @@ func TestSaveHandler(t *testing.T) {
 
 	var tests = []testItem{
 		{"?path=test/test.js&data=fdsa", 200, `{"message":"","error":0}`},
+		{"?path=test/newfile.js&data=fdsa", 200, `{"message":"","error":0}`},
 		{"?path=&data=fdsa", 200, `{"message":"No Data or Path specified","error":1}`},
 		{"?path=asdf&data=", 200, `{"message":"No Data or Path specified","error":1}`},
-		{"?path=derp.js&data=fdsa", 200, `{"message":"Couldn't write to file: open derp.js: no such file or directory","error":2}`},
 		{"?path=asdf&data=fdsa", 200, `{"message":"File must have a .js suffix","error":3}`},
 	}
 
 	runTests(tests, server, t)
+
+	os.Remove("test/newfile.js")
 }
